@@ -56,3 +56,18 @@ class Doctor:
     def __str__(self):
         return f"{self.id} - Dr(a). {self.nombre} - {self.especialidad} "
         
+# ==================== HERENCIA: ESPECIALIDADES ====================
+class Cardiologo(Doctor):
+    def __init__(self, nombre, telefono):
+        super().__init__(nombre, "Cardiologia", telefono)
+        self.costo_consulta = 800
+
+class Pediatra(Doctor):
+    def __init__(self, nombre, telefono):
+        super().__init__(nombre, "Pediatria", telefono)
+        self.coste_consulta = 600
+
+class Dermatologo(Doctor):
+    def __init__(self, nombre, telefono):
+        super().__init__(nombre, "Dermatologia", telefono)
+        self.costo_consulta = 700
