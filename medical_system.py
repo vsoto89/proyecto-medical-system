@@ -71,3 +71,41 @@ class Dermatologo(Doctor):
     def __init__(self, nombre, telefono):
         super().__init__(nombre, "Dermatologia", telefono)
         self.costo_consulta = 700
+
+# ==================== CLASE CITA ====================
+class Cita:
+    contador_citas = 0
+
+    def __init__(self, paciente, doctor, fecha, hora, motivo):
+        Cita.contador_citas += 1
+        self.id = f"CIT{Cita.contador_citas:04d}"
+        self.paciente = paciente
+        self.doctor = doctor
+        self.fecha = fecha
+        self.hora = hora
+        self.motivo = motivo
+        self.estado = "Programada"
+        self.diagnostico = ""
+
+    def cancelar(self):
+        self.estado = "Cancelada"
+
+    def completar(self, diagnostico):
+        self.estado = "Completada"
+        self.diagnostico = diagnostico
+    
+    def mostrar_info(self):
+        print(f"\n{'='*60}")
+        print(f"ID Cita: {self.id} | Estado: {self.estado}")
+        print(f"Paciente: {self.paciente.nombre} (ID: {self.paciente.id})")
+        print(f"Doctor: {self.doctor.nombre} - {self.doctor.especialidad}")
+        print(f"Fecha: {self.fecha} | Hora: {self.hora}")
+        print(f"Motivo: {self.motivo}")
+        if self.diagnostico:
+            print(f"Diagnóstico: {self.diagnostico}")
+        print(f"Costo: ${self.doctor.costo_consulta}")
+        print(f"{'='*60}")
+
+    def __str__(self):
+        return f"{self.id} - {self.paciente.nombre} con {self.doctor.nombre} ({self.fecha} {self.hora}) [{self.estado}]"
+        
