@@ -24,4 +24,35 @@ class Paciente:
 
     def __str__(self):
         return f"{self.id} - {self.nombre} ({self.edad} años)"
-        fgfg
+
+class Doctor:
+    contador_doctores = 0
+
+    def __init__(self, nombre, especialidad, telefono):
+        Doctor.contador_doctores +=1
+        self.id = f"DOC{Doctor.contador_doctores:04d}"
+        self.nombre = nombre
+        self.especialidad = especialidad
+        self.telefono = telefono
+        self.citas_programadas = []
+    
+    def agregar_cita(self, cita):
+        self.citas_programadas.append(cita)
+
+    def verificar_disponibilidad(self,fecha, hora):
+        for cita in self.citas_programadas:
+          if cita.fecha == fecha and cita.hora == hora and cita.estado != "cancelada":
+              return False 
+        return True
+    
+    def mostrar_info(self):
+        citas_activas = len([c for c in self.citas_programadas if c.estado == 'Programada'])
+        print(f"\n{'='*50}")
+        print(f"ID: {self.id} | Dr(a). {self.nombre}")
+        print(f"Especialidad: {self.especialidad} | Teléfono: {self.telefono}")
+        print(f"Citas programadas: {citas_activas}")
+        print(f"{'='*50}")
+    
+    def __str__(self):
+        return f"{self.id} - Dr(a). {self.nombre} - {self.especialidad} "
+        
