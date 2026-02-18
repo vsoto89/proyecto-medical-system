@@ -207,4 +207,132 @@ class Consultorio:
         print(f"\n{'='*60}\nCITAS - {filtro.upper()} ({len(citas_filtradas)} total)\n{'='*60}")
         for cita in citas_filtradas:
             print(cita)
-    
+        
+def mostrar_menu():
+    print("\n" + "="*60)
+    print(f"{'🏥 SISTEMA DE GESTIÓN DE CITAS MÉDICAS':^60}")
+    print("="*60)
+    print("1.  Registrar nuevo paciente")
+    print("2.  Registrar nuevo doctor")
+    print("3.  Agendar cita")
+    print("4.  Ver información de paciente")
+    print("5.  Ver información de doctor")
+    print("6.  Ver información de cita")
+    print("7.  Cancelar cita")
+    print("8.  Completar cita (agregar diagnóstico)")
+    print("9.  Listar todos los pacientes")
+    print("10. Listar todos los doctores")
+    print("11. Listar todas las citas")
+    print("12. Listar citas programadas")
+    print("0.  Salir")
+    print("="*60)
+
+
+def main():
+    consultorio = Consultorio("Centro Medico Salud Total")
+
+    # Datos de ejemplo
+    consultorio.registrar_doctor("1", "Ana García", "555-0101")
+    consultorio.registrar_doctor("2", "Carlos Rodríguez", "555-0102")
+    consultorio.registrar_doctor("3", "María López", "555-0103")
+
+    while True:
+        mostrar_menu()
+        opcion = input("\nSeleccione una opción: ")
+
+        if opcion == "1":
+            print("\n--- REGISTRAR NUEVO PACIENTE ---")
+            nombre = input("Nombre completo: ")
+            edad = int(input("Edad: "))
+            telefono = input("Teléfono: ")
+            email = input("Email: ")
+            consultorio.registrar_paciente(nombre, edad, telefono, email)
+
+        elif opcion == "2":
+            print("\n--- REGISTRAR NUEVO DOCTOR ---")
+            print("Especialidades: 1.Cardiología 2.Pediatría 3.Dermatología")
+            tipo = input("Seleccione especialidad: ")
+            nombre = input("Nombre completo: ")
+            telefono = input("Teléfono: ")
+            consultorio.registrar_doctor(tipo, nombre, telefono)
+
+        elif opcion == "3":
+            print("\n--- AGENDAR CITA ---")
+            consultorio.mostrar_pacientes()
+            id_paciente = input("\nID del paciente: ").upper()
+            consultorio.mostrar_doctores()
+            id_doctor = input("\nID del doctor: ").upper()
+            fecha = input("Fecha (YYYY-MM-DD): ")
+            hora = input("Hora (HH:00): ")
+            motivo = input("Motivo de la consulta: ")
+            consultorio.agendar_cita(id_paciente, id_doctor, fecha, hora, motivo)
+
+        elif opcion == "4":
+            id_paciente = input("\nID del paciente: ").upper()
+            paciente = consultorio.buscar_paciente(id_paciente)
+            if paciente:
+                paciente.mostrar_info()
+            else:
+                print("✗ Paciente no encontrado")
+        
+        elif opcion == "5":
+            id_doctor = input("\nID del doctor: ").upper()
+            doctor = consultorio.buscar_doctor(id_doctor)
+            if doctor:
+                doctor.mostrar_info()
+            else:
+                print("✗ Doctor no encontrado")
+        
+        elif opcion == "6":
+            id_cita = input("\nID de la cita: ").upper()
+            cita = consultorio.buscar_cita(id_cita)
+            if cita:
+                cita.mostrar_info()
+            else:
+                print("✗ Cita no encontrada")
+        
+        elif opcion == "7":
+            id_cita = input("\nID de la cita a cancelar: ").upper()
+            cita = consultorio.buscar_cita(id_cita)
+            if cita:
+                cita.cancelar()
+                print("✓ Cita cancelada exitosamente")
+            else:
+                print("✗ Cita no encontrada")
+
+        elif opcion == "8":
+            id_cita = input("\nID de la cita: ").upper()
+            cita = consultorio.buscar_cita(id_cita)
+            if cita:
+                diagnostico = input("Diagnóstico: ")
+                cita.completar(diagnostico)
+                print("✓ Cita completada exitosamente")
+            else:
+                print("✗ Cita no encontrada")
+
+        elif opcion == "9":
+            consultorio.mostrar_pacientes()
+
+        elif opcion == "10":
+            consultorio.mostrar_doctores()
+        
+        elif opcion == "11":
+            consultorio.mostrar_citas("todas")
+        
+        elif opcion == "12":
+            consultorio.mostrar_citas("programadas")
+
+        elif opcion == "0":
+            print("\n¡Gracias por usar el Sistema de Gestión de Citas Médicas!")
+            print("¡Hasta pronto! 👋\n")
+            break
+        
+        else:
+            print("\n✗ Opción no válida. Por favor, intente de nuevo.")
+        
+        input("\nPresione ENTER para continuar...")
+
+
+# ===== EJECUTAR EL PROGRAMA =====
+# Llamar a la función principal
+main()
